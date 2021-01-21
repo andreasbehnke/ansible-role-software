@@ -1,0 +1,22 @@
+---
+
+  - name: install tools with snap - classic
+    become: yes
+    snap:
+      classic: yes
+      name: "{{ item }}"
+    loop: "{{ software.snap.classic }}"
+    when: software.snap.classic is defined
+
+  - name: install tools with snap - normal
+    become: yes
+    snap:
+      name: "{{ software.snap.normal }}"
+    when: software.snap.normal is defined
+
+  - name: install tools with apt
+    become: yes
+    apt:
+      name: "{{ software.apt }}"
+      state: latest
+    when: software.apt is defined
