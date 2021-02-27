@@ -14,9 +14,27 @@
       name: "{{ software.snap.normal }}"
     when: software.snap.normal is defined
 
-  - name: install tools with apt
+  - name: install additional apt repositories - keys
+    become: yes
+    apt_key: 
+      url: "{{item.key_url}}"
+      state: present
+    loop: "{{ software.apt_repository }}"
+    when: software.apt_repository is defined
+
+  - name: install additional apt repositories - repository
+    become: yes
+    apt_repository: 
+      repo: "{{item.repository}}"
+      state: "present"
+      filename: "{{item.name}}" 
+    loop: "{{ software.apt_repository }}"
+    when: software.apt_repository is defined
+
+  - name: 
     become: yes
     apt:
       name: "{{ software.apt }}"
       state: latest
+      update_cache: "yes"
     when: software.apt is defined
