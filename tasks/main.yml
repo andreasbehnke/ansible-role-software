@@ -14,6 +14,14 @@
       name: "{{ software.snap.normal }}"
     when: software.snap.normal is defined
 
+  - name: install additional apt repositories - required tools
+    become: yes
+    apt: 
+      name: "gpg"
+      state: latest
+      update_cache: "yes"
+    when: software.apt_repository is defined
+
   - name: install additional apt repositories - keys
     become: yes
     apt_key: 
